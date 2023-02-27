@@ -72,26 +72,13 @@ jobs:
           command: build
           args: --package turboprisma_cli --release --target ${{ matrix.target }}
 
-      - name: Create CLI binary package folder
-        run: mkdir npm-release-root
-
-      - name: Copy turboprisma_cli${{ matrix.output }} to binary package folder 
-        uses: chpoit/js-copy-github-action@master
-        with:
-          source: "target/${{ matrix.target }}/release/turboprisma_cli${{ matrix.output }}"
-          target: "npm-release-root/turboprisma_cli${{ matrix.output }}"
-
-      - name: Copy LICENSE to CLI binary package folder 
-        uses: chpoit/js-copy-github-action@master
-        with:
-          source: "LICENSE"
-          target: "npm-release-root/LICENSE"
-
-      - name: Copy README to CLI binary package folder
-        uses: chpoit/js-copy-github-action@master
-        with:
-          source: "assets/README.md"
-          target: "npm-release-root/README.md"
+      - name: Prepare CLI binary package folder
+        shell: bash
+        run: |
+          mkdir npm-release-root
+          mv target/${{ matrix.target }}/release/turboprisma_cli${{ matrix.output }} npm-release-root/turboprisma_cli${{ matrix.output }}
+          mv LICENSE.md npm-release-root/LICENSE.md
+          mv assets/README.md npm-release-root/README.md
 
       - name: Read CLI package.json
         id: cli
