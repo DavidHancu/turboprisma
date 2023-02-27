@@ -43,5 +43,5 @@ const path = require("path")
 const { renameSync, unlinkSync } = require("fs");
 
 const packRoot = path.resolve(__dirname, "node_modules", ...map[`${arch}-${os}`]);
-unlinkSync(path.join(__dirname), "turboprisma_cli");
+unlinkSync(path.join(__dirname, "turboprisma_cli"));
 renameSync(path.join(packRoot, `turboprisma_cli${extension}`), path.join(__dirname, `turboprisma_cli${extension}`))
