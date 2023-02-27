@@ -1,6 +1,6 @@
 {
   "name": "turboprisma",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Incredibly fast and performant Prisma runtime that provides an unified access framework, abstractions and new features on top of the Prisma schema, CLI and tools.",
   "bin": {
     "turboprisma": "./turboprisma_cli"
