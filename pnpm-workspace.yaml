@@ -1,0 +1,4 @@
+packages:
+  - ".github/actions/*"
+  - "packages/*"
+  - "!packages/turboprisma"

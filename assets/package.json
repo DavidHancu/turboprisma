@@ -1,0 +1,16 @@
+{
+    "name": "RINSERT_NAMER",
+    "version": "RINSERT_VERSIONR",
+    "description": "A platform binary for Turboprisma, a Prisma Runtime.",
+    "repository": "https://github.com/DavidHancu/turboprisma",
+    "bugs": "https://github.com/DavidHancu/turboprisma/issues",
+    "homepage": "https://turboprisma.js.org",
+    "license": "Apache-2.0",
+    "os": [
+      "RINSERT_OSR"
+    ],
+    "cpu": [
+      "RINSERT_CPUR"
+    ]
+}
+  
