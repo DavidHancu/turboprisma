@@ -10,12 +10,12 @@ MacOS = x86_64-apple-darwin aarch64-apple-darwin
 Linux = x86_64-unknown-linux-gnu aarch64-unknown-linux-gnu
 */
 const map = {
-    "x86_64-unknown-linux-gnu": "@turboprisma/cli-linux-x64",
-    "aarch64-unknown-linux-gnu": "@turboprisma/cli-linux-arm64",
-    "x86_64-apple-darwin": "@turboprisma/cli-darwin-x64",
-    "aarch64-apple-darwin": "@turboprisma/cli-darwin-arm64",
-    "x86_64-pc-windows-msvc": "@turboprisma/cli-windows-x64",
-    "aarch64-pc-windows-msvc": "@turboprisma/cli-windows-arm64"
+    "x86_64-unknown-linux-gnu": ["@turboprisma", "cli-linux-x64"],
+    "aarch64-unknown-linux-gnu": ["@turboprisma", "cli-linux-arm64"],
+    "x86_64-apple-darwin": ["@turboprisma", "cli-darwin-x64"],
+    "aarch64-apple-darwin": ["@turboprisma", "cli-darwin-arm64"],
+    "x86_64-pc-windows-msvc": ["@turboprisma", "cli-windows-x64"],
+    "aarch64-pc-windows-msvc": ["@turboprisma", "cli-linux-arm64"]
 }
 
 let os = process.platform;
@@ -42,6 +42,6 @@ if(arch == "arm64")
 const path = require("path")
 const { renameSync, unlinkSync } = require("fs");
 
-const packRoot = require.resolve(map[`${arch}-${os}`]);
+const packRoot = path.resolve(__dirname, "node_modules", ...map[`${arch}-${os}`]);
 unlinkSync(path.join(__dirname), "turboprisma_cli");
 renameSync(path.join(packRoot, `turboprisma_cli${extension}`), path.join(__dirname, `turboprisma_cli${extension}`))
