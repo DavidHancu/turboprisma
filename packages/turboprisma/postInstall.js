@@ -42,6 +42,14 @@ if(arch == "arm64")
 const path = require("path")
 const { renameSync, unlinkSync } = require("fs");
 
-const packRoot = path.resolve(__dirname, "node_modules", ...map[`${arch}-${os}`]);
-unlinkSync(path.join(__dirname, "turboprisma_cli"));
-renameSync(path.join(packRoot, `turboprisma_cli${extension}`), path.join(__dirname, `turboprisma_cli${extension}`))
+let packRoot = path.resolve(__dirname, "node_modules", ...map[`${arch}-${os}`]);
+try {
+    process.stdout.write(`Attempting to read binary from ${path.join(packRoot, `turboprisma_cli${extension}`)}...\n`)
+    unlinkSync(path.join(__dirname, "turboprisma_cli"));
+    renameSync(path.join(packRoot, `turboprisma_cli${extension}`), path.join(__dirname, `turboprisma_cli${extension}`))
+} catch {
+    packRoot = path.resolve(__dirname, "../", "node_modules", ...map[`${arch}-${os}`]);
+    process.stdout.write(`Attempting to read binary from ${path.join(packRoot, `turboprisma_cli${extension}`)}...\n`)
+    unlinkSync(path.join(__dirname, "turboprisma_cli"));
+    renameSync(path.join(packRoot, `turboprisma_cli${extension}`), path.join(__dirname, `turboprisma_cli${extension}`))
+}
