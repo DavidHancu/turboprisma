@@ -3,3 +3,4 @@ node_modules
 
 # not ready yet
 /crates/ast
+prisma
