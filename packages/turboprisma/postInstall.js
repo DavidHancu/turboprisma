@@ -48,7 +48,7 @@ try {
     unlinkSync(path.join(__dirname, "turboprisma_cli"));
     renameSync(path.join(packRoot, `turboprisma_cli${extension}`), path.join(__dirname, `turboprisma_cli${extension}`))
 } catch {
-    packRoot = path.resolve(__dirname, "../", "node_modules", ...map[`${arch}-${os}`]);
+    packRoot = path.resolve(__dirname, "../", ...map[`${arch}-${os}`]);
     process.stdout.write(`Attempting to read binary from ${path.join(packRoot, `turboprisma_cli${extension}`)}...\n`)
     unlinkSync(path.join(__dirname, "turboprisma_cli"));
     renameSync(path.join(packRoot, `turboprisma_cli${extension}`), path.join(__dirname, `turboprisma_cli${extension}`))
