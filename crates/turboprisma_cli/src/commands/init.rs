@@ -147,7 +147,9 @@ pub fn run(help: bool, options: HashMap<String, String>) {
 }, "  ", datasource_provider, "  ");
 
             match std::fs::write(prisma_folder.join("schema.prisma"), schema) {
-                Ok(_) => (),
+                Ok(_) => {
+                    println!("{} {}{}{}", " SUCCESS ".on_green(), "Sucessfully written schema to ".green(), "prisma/schema.prisma".green().bold(), ".".green())
+                },
                 Err(_) => {
                     println!(
                         "{} {}",
