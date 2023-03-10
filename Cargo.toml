@@ -1,8 +1,9 @@
 [workspace]
 members = [
     #"crates/ast/turboprisma_ast",
-    #"crates/ast/turboprisma_ast_wasm",
-    #"crates/ast/diagnostics",
-    #"crates/ast/schema_ast",
-    "crates/turboprisma_cli"
+    "crates/turboprisma_cli",
+    "crates/ast/*",
+    "crates/libs/*",
+    "crates/format/*",
+    "crates/query_engine/*"
 ]

@@ -1,0 +1,17 @@
+{
+  "name": "@turboprisma/turboprisma-fmt-wasm",
+  "version": null,
+  "description": "The WASM package for turboprisma-fmt",
+  "main": "src/turboprisma_fmt_build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DavidHancu/turboprisma",
+    "directory": "crates/format/turboprisma_fmt_wasm"
+  },
+  "author": "DavidHancu",
+  "license": "Apache-2.0",
+  "homepage": "https://turboprisma.js.org"
+}

@@ -2,5 +2,7 @@
 node_modules
 
 # not ready yet
-/crates/ast
+/packages/generator
+
 prisma
+.env

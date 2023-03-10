@@ -1,0 +1,17 @@
+[package]
+edition = "2021"
+name = "prisma_models"
+version = "0.0.0"
+
+[dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+dml = { path = "../dml" }
+itertools = "0.10"
+prisma_value = { path = "../../libs/prisma_value" }
+bigdecimal = "0.3"
+serde_json = { version = "1.0", features = ["float_roundtrip"] }
+thiserror = "1.0"
+psl = { path = "../../ast/psl" }
+
+[features]
+default_generators = ["dml/default_generators"]

@@ -1,0 +1,14 @@
+[package]
+name = "psl"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+builtin_psl_connectors = { path = "../builtin_connectors" }
+psl_core = { path = "../psl_core" }
+
+[dev-dependencies]
+dissimilar = "1.0.4"
+dml = { path = "../../query_engine/dml" }
+expect-test = "1.1.0"
+indoc = "1"

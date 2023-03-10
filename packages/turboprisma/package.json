@@ -1,6 +1,6 @@
 {
   "name": "turboprisma",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "description": "Incredibly fast and performant Prisma runtime that provides an unified access framework, abstractions and new features on top of the Prisma schema, CLI and tools.",
   "bin": {
     "turboprisma": "./turboprisma_cli"
@@ -14,12 +14,12 @@
   "author": "DavidHancu",
   "license": "Apache-2.0",
   "optionalDependencies": {
-    "@turboprisma/cli-linux-x64": "0.2.8",
-    "@turboprisma/cli-linux-arm64": "0.2.8",
-    "@turboprisma/cli-darwin-x64": "0.2.8",
-    "@turboprisma/cli-darwin-arm64": "0.2.8",
-    "@turboprisma/cli-windows-x64": "0.2.8",
-    "@turboprisma/cli-windows-arm64": "0.2.8"
+    "@turboprisma/cli-linux-x64": "0.3.0",
+    "@turboprisma/cli-linux-arm64": "0.3.0",
+    "@turboprisma/cli-darwin-x64": "0.3.0",
+    "@turboprisma/cli-darwin-arm64": "0.3.0",
+    "@turboprisma/cli-windows-x64": "0.3.0",
+    "@turboprisma/cli-windows-arm64": "0.3.0"
   },
   "repository": "https://github.com/DavidHancu/turboprisma",
   "bugs": "https://github.com/DavidHancu/turboprisma/issues"

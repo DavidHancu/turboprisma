@@ -1,0 +1,19 @@
+[package]
+name = "dmmf"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bigdecimal = "0.3.0"
+schema = { path = "../schema" }
+schema_builder = { path = "../schema_builder" }
+indexmap = { version = "1.7", features = ["serde-1"] }
+prisma_models = { path = "../prisma_models" }
+psl = { path = "../../ast/psl" }
+serde_json = { version = "1", features = ["float_roundtrip", "preserve_order"] }
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+expect-test = "1.2.2"
+indoc = "1.0.3"
+pretty_assertions = "1"

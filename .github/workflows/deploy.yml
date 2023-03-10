@@ -5,8 +5,9 @@ on:
     types: [published]
 
 jobs:
-  build:
-    name: "Build targets"
+  build_turboprisma_cli:
+    name: "Build turboprisma_cli"
+    if: ${{ contains(github.event.release.body, '@turboprisma/cli') }}
     strategy:
       matrix:
         target: [aarch64-unknown-linux-gnu, x86_64-unknown-linux-gnu, aarch64-pc-windows-msvc, x86_64-pc-windows-msvc, aarch64-apple-darwin, x86_64-apple-darwin]
@@ -57,13 +58,6 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
           override: true
-
-      #- name: "Build turboprisma_ast ${{ matrix.target }}"
-      #  uses: actions-rs/cargo@v1
-      #  with:
-      #    use-cross: true
-      #    command: build
-      #    args: --package turboprisma_ast --release --target ${{ matrix.target }}
 
       - name: "Build turboprisma_cli ${{ matrix.target }}"
         uses: actions-rs/cargo@v1
@@ -121,18 +115,12 @@ jobs:
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #- name: "Acquire wasm-pack"
-      #  uses: jetli/wasm-pack-action@v0.4.0
-      #  with:
-      #    version: 'latest'
-
-      #- name: "Build turboprisma_ast_wasm ${{ matrix.target }}"
-      #  run: wasm-pack build crates/ast/turboprisma_ast_wasm --out-name index --release --target nodejs
 
   publish_npm_cli:
     name: "Publish turboprisma"
     runs-on: ubuntu-latest
     needs: build
+    if: ${{ contains(github.event.release.body, '@turboprisma/cli') }}
 
     steps:
       - uses: actions/checkout@v2
@@ -144,6 +132,50 @@ jobs:
       - name: Publish
         run: |
           cd packages/turboprisma
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish_turboprisma_fmt_wasm:
+    name: "Publish @turboprisma/turboprisma-fmt-wasm"
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ contains(github.event.release.body, '@turboprisma/turboprisma-fmt-wasm') }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Acquire wasm-pack"
+        uses: jetli/wasm-pack-action@v0.4.0
+        with:
+          version: 'latest'
+
+      - name: "Build turboprisma_ast_wasm"
+        run: wasm-pack build crates/format/turboprisma_fmt_wasm --out-name index --release --target nodejs --scope turboprisma
+        
+      - name: Publish
+        run: |
+          cd crates/format/turboprisma_fmt_wasm/pkg
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish_sdk:
+    name: "Publish @turboprisma/sdk"
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event.release.body, '@turboprisma/sdk') }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Publish
+        run: |
+          cd packages/sdk
+          npm ci
+          npm run build
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

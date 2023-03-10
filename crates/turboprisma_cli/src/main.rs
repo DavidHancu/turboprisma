@@ -1,5 +1,7 @@
 mod args;
 mod commands;
+mod utils;
+mod env_parser;
 
 use args::{Args, ErrorType};
 use colored::*;
@@ -26,21 +28,36 @@ fn main() {
                     \n\n{} \
                     \n\n  {}  {} \
                     \n  {}  {} \
+                    \n  {}  {} \
+                    \n  {}  {} \
                     \n\n{} \
+                    \n\n  {} \
+                    \n  {} {} \
+                    \n\n  {} \
+                    \n  {} {} \
                     \n\n  {} \
                     \n  {} {} \
                     \n",
                     "Turboprisma".gradient(Gradient::Passion),
                     "The agile runtime that allows you to use Prisma the way you want to.".dimmed(),
                     "Read more at".dimmed(), "https://turboprisma.js.org".gradient(Gradient::Passion), ".".dimmed(),
+
                     "Usage".gradient(Gradient::Passion),
                     "$".dimmed(), "turboprisma [command]".white(),
+
                     "Commands".gradient(Gradient::Passion),
-                    "version".dimmed(), "Print useful information for debugging.".white(),
-                    "   init".dimmed(), "Set up Turboprisma for your app.".white(),
+                    " version".dimmed(), "Print useful information for debugging.".white(),
+                    "    init".dimmed(), "Set up Turboprisma for your app.".white(),
+                    "  format".dimmed(), "Format your Turboprisma schema.".white(),
+                    "validate".dimmed(), "Validate your Turboprisma schema.".white(),
+
                     "Examples".gradient(Gradient::Passion),
                     "Setup a new Turboprisma project".dimmed(),
-                    "$".dimmed(), "turboprisma init"
+                    "$".dimmed(), "turboprisma init",
+                    "Format your Turboprisma schema".dimmed(),
+                    "$".dimmed(), "turboprisma format",
+                    "Validate your Turboprisma schema".dimmed(),
+                    "$".dimmed(), "turboprisma validate"
                 );
                 exit(0);
             }
@@ -57,6 +74,17 @@ fn main() {
                     commands::init::run(parsed.help, parsed.options);
                     exit(0);
                 }
+
+                "format" => {
+                    commands::format::run(parsed.help, parsed.options);
+                    exit(0);
+                }
+
+                "validate" => {
+                    commands::validate::run(parsed.help, parsed.options);
+                    exit(0);
+                }
+
                 _ => {
                     println!("{} {}{}{}", " ERROR ".on_red().white(), "Unknown command. (at ".red(), first_command.red().bold(), ").".red());
                     exit(1);
