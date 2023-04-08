@@ -1,4 +1,4 @@
 datasource db {
     provider = "postgresql"
-    url = env("MEOW")
+    url = env("DATABASE_URL")
 }
