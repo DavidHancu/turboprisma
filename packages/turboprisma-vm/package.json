@@ -1,0 +1,27 @@
+{
+  "name": "turboprisma-vm",
+  "version": "1.0.0",
+  "description": "Easy way to access local installs of Turboprisma without providing a full path or using package manager runners.",
+  "bin": {
+    "turboprisma-vm": "./turboprisma_cli",
+    "tvm": "./turboprisma_cli"
+  },
+  "homepage": "https://turboprisma.js.org",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node postInstall.js"
+  },
+  "keywords": ["turbo", "prisma", "orm", "database", "runtime", "turboprisma", "dmmf", "schema", "parser"],
+  "author": "DavidHancu",
+  "license": "Apache-2.0",
+  "optionalDependencies": {
+    "@turboprisma/vm-cli-linux-x64": "1.0.0",
+    "@turboprisma/vm-cli-linux-arm64": "1.0.0",
+    "@turboprisma/vm-cli-darwin-x64": "1.0.0",
+    "@turboprisma/vm-cli-darwin-arm64": "1.0.0",
+    "@turboprisma/vm-cli-windows-x64": "1.0.0",
+    "@turboprisma/vm-cli-windows-arm64": "1.0.0"
+  },
+  "repository": "https://github.com/DavidHancu/turboprisma",
+  "bugs": "https://github.com/DavidHancu/turboprisma/issues"
+}
