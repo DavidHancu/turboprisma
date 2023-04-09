@@ -6,4 +6,5 @@ members = [
     "crates/libs/*",
     "crates/format/*",
     "crates/query_engine/*",
+    "crates/turboprisma_vm"
 ]

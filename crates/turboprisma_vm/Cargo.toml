@@ -1,0 +1,9 @@
+[package]
+name = "turboprisma_vm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dunce = "1.0.3"
+colored = "2.0.0"
+tiny-gradient = "0.1.0"
