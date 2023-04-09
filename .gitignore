@@ -3,6 +3,7 @@ node_modules
 
 # not ready yet
 /packages/generator
+/packages/*/target
 
 prisma
 .env

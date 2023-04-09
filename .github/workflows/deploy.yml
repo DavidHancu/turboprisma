@@ -136,6 +136,137 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+  build_turboprisma_vm_cli:
+    name: "Build turboprisma_vm"
+    if: ${{ contains(github.event.release.body, 'turboprisma-vm') }}
+    strategy:
+      matrix:
+        target: [aarch64-unknown-linux-gnu, x86_64-unknown-linux-gnu, aarch64-pc-windows-msvc, x86_64-pc-windows-msvc, aarch64-apple-darwin, x86_64-apple-darwin]
+        include: 
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-latest
+            package: "@turboprisma/vm-cli-linux-arm64"
+            output: ""
+            npm_os: "linux"
+            npm_cpu: "arm"
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            package: "@turboprisma/vm-cli-linux-x64"
+            output: ""
+            npm_os: "linux"
+            npm_cpu: "x64"
+          - target: aarch64-pc-windows-msvc
+            os: windows-latest
+            package: "@turboprisma/vm-cli-windows-arm64"
+            output: ".exe"
+            npm_os: "win32"
+            npm_cpu: "arm"
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            package: "@turboprisma/vm-cli-windows-x64"
+            output: ".exe"
+            npm_os: "win32"
+            npm_cpu: "x64"
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            package: "@turboprisma/vm-cli-darwin-arm64"
+            output: ""
+            npm_os: "darwin"
+            npm_cpu: "arm"
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            package: "@turboprisma/vm-cli-darwin-x64"
+            output: ""
+            npm_os: "darwin"
+            npm_cpu: "x64"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+          override: true
+
+      - name: "Build turboprisma_vm ${{ matrix.target }}"
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --package turboprisma_vm --release --target ${{ matrix.target }}
+
+      - name: Prepare CLI binary package folder
+        shell: bash
+        run: |
+          mkdir npm-release-root
+          mv target/${{ matrix.target }}/release/turboprisma_vm${{ matrix.output }} npm-release-root/turboprisma_vm${{ matrix.output }}
+          mv LICENSE.md npm-release-root/LICENSE.md
+          mv assets/README.md npm-release-root/README.md
+
+      - name: Read CLI package.json
+        id: cli
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./packages/turboprisma-vm/package.json
+
+      - name: Dump CLI package.json version
+        run: echo '${{ fromJSON(steps.cli.outputs.content).version }}'
+
+      - name: Fill CLI package.json template
+        uses: bluwy/substitute-string-action@v1
+        id: sub
+        with:
+          _input-file: ./assets/package.json
+          RINSERT_NAMER: ${{ matrix.package }}
+          RINSERT_VERSIONR: ${{ fromJSON(steps.cli.outputs.content).version }}
+          RINSERT_OSR: ${{ matrix.npm_os }}
+          RINSERT_CPUR: ${{ matrix.npm_cpu }}
+
+      - name: Dump template package.json
+        run: echo '${{ steps.sub.outputs.result }}'
+
+      - name: Write template package.json to CLI binary package folder
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: npm-release-root/package.json
+          contents: ${{ steps.sub.outputs.result }}
+          write-mode: append
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Publish CLI binary to NPM
+        run: |
+          cd npm-release-root
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish_npm_vm_cli:
+    name: "Publish turboprisma-vm"
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ contains(github.event.release.body, 'turboprisma-vm') }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Publish
+        run: |
+          cd packages/turboprisma-vm
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
   publish_turboprisma_fmt_wasm:
     name: "Publish @turboprisma/turboprisma-fmt-wasm"
     runs-on: ubuntu-latest
